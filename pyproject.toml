@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "yupiwrap"
+version = "0.1.0"
+description = ""
+authors = [
+    "Gustavo Viera-López <gvieralopez@gmail.com>",
+    "Alfredo Reyes <areyes@fisica.uh.cu>",
+    "Jorge Morgado <jorge.morgadov@gmail.com>",
+    "Ernesto Altshuler <ealtshuler@fisica.uh.cu>"
+]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+yupi = "^0.5.7"
+traja = "^0.2.8"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
