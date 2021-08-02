@@ -1,4 +1,4 @@
-from yupi_wrap import yupi2traja, traja2yupi
+from yupiwrap import yupi2traja, traja2yupi
 from yupi import Trajectory
 
 # Create a trajectory in yupi
