@@ -54,3 +54,51 @@ from yupiwrap import traja2yupi
 
 yupi_track = traja2yupi(traja_track)
 ```
+
+### tracktable
+
+[Tracktable](https://github.com/sandialabs/tracktable) provides a set of tools for handling 2D and 3D trajectories as well as Terrain trajectories. The core data structures and algorithms on this package are implemented in C++ for speed and more efficient memory use.
+
+#### Converting a *yupi.Trajectory* into a tracktable trajectory
+
+Let's create a trajectory with yupi:
+
+```python
+from yupiwrap.tracktable import yupi2tracktable, tracktable2yupi
+from yupi import Trajectory
+
+# Creating a yupi trajectory representing terrain coordinates
+points = [[-82.359415, 23.135012],[-82.382116, 23.136252]]
+track_1 = Trajectory(points=points, traj_id="ter_track")
+
+# Creating a 2D yupi trajectory
+points = [[0, 0], [1.0, 0], [0.63, 0.98], [-0.37, 1.24], [-1.24, 0.69],
+          [-1.5, -0.3], [-1.08, -1.23], [-0.19, -1.72], [0.82, -1.63],
+          [1.63, -1.01], [1.99, -0.06], [1.85, 0.94]]
+track_2 = Trajectory(points=points, traj_id="2d_track")
+
+# Creating a 3D yupi trajectory
+points = [[0,0,0], [1,1,3], [3,2,5]]
+track_3 = Trajectory(points=points, traj_id="3d_track")
+```
+
+We can convert these tracks to tracktable trajectories simply by:
+
+```python
+tracktable_track_1 = yupi2tracktable(track_1, is_terrestial=True)
+tracktable_track_2 = yupi2tracktable(track_2)
+tracktable_track_3 = yupi2tracktable(track_3)
+```
+
+> If a 3D yupi trajectory is converted to a tracktable trajectory with `is_terrestial=True` then the `z` axis values are stored as a property called `'altitude'` for each point.
+
+⚠️ Only *yupi.Trajectory* objects with two or three dimensions can be converted to tracktable trajectories due to tracktable limitations.
+
+#### Converting a tracktable trajectory into a *yupi.Trajectory*
+
+If you have a tracktable trajectory you can always convert it to a *yupi.Trajectory* by using:
+
+```python
+# Converting the trajectory from tracktable to yupi
+yupi_track_1 = tracktable2yupi(tracktable_track_1)
+```
