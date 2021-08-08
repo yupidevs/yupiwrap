@@ -4,7 +4,7 @@ This repository contains functions to simplify the conversion of Trajectory data
 among [yupi](https://yupi.readthedocs.io/en/latest/) and other useful software libraries designed for analyzing trajectories.
 
 Standing for *Yet Underused Path Instruments*, [yupi](https://yupi.readthedocs.io/en/latest/) is a set of tools designed for collecting, generating and processing trajectory data. The structure of yupi aims to standardize the usage and storage of general purpose trajectories independently of its dimensions. We believe it is useful to be able to convert, when possible, yupi trajectories to the data structures used by other libraries to
-empower our users with the tools offered by third parties. With the same spirit, we offer the possibility of converting data rom other libraries to yupi trajectories.
+empower our users with the tools offered by third parties. With the same spirit, we offer the possibility of converting data from other libraries to yupi trajectories.
 
 ## Installation
 
