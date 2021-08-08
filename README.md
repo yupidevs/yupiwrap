@@ -85,12 +85,12 @@ track_3 = Trajectory(points=points, traj_id="3d_track")
 We can convert these tracks to tracktable trajectories simply by:
 
 ```python
-tracktable_track_1 = yupi2tracktable(track_1, is_terrestial=True)
+tracktable_track_1 = yupi2tracktable(track_1, is_terrestrial=True)
 tracktable_track_2 = yupi2tracktable(track_2)
 tracktable_track_3 = yupi2tracktable(track_3)
 ```
 
-> If a 3D yupi trajectory is converted to a tracktable trajectory with `is_terrestial=True` then the `z` axis values are stored as a property called `'altitude'` for each point.
+> If a 3D yupi trajectory is converted to a tracktable trajectory with `is_terrestrial=True` then the `z` axis values are stored as a property called `'altitude'` for each point.
 
 ⚠️ Only *yupi.Trajectory* objects with two or three dimensions can be converted to tracktable trajectories due to tracktable limitations.
 

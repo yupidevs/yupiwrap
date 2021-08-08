@@ -16,7 +16,7 @@ points = [[0,0,0], [1,1,3], [3,2,5]]
 track_3 = Trajectory(points=points, traj_id="3d_track")
 
 
-tracktable_track_1 = yupi2tracktable(track_1, is_terrestial=True)
+tracktable_track_1 = yupi2tracktable(track_1, is_terrestrial=True)
 tracktable_track_2 = yupi2tracktable(track_2)
 tracktable_track_3 = yupi2tracktable(track_3)
 

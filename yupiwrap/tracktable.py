@@ -23,7 +23,7 @@ TracktableTrajectory = Union[
 def yupi2tracktable(yupi_trajectory: yupi.Trajectory,
                     time_conv: Callable[[np.ndarray], Iterable] = seconds2datetime,
                     init_datetime: datetime = None,
-                    is_terrestial = False) -> TracktableTrajectory:
+                    is_terrestrial = False) -> TracktableTrajectory:
     """Converts a yupi trajectory to a tracktable trajectory.
 
     Parameters
@@ -36,7 +36,7 @@ def yupi2tracktable(yupi_trajectory: yupi.Trajectory,
     init_datetime : datetime, optional
         Initial datetime taken as reference for the construction of the
         datetime iterable, by default None.
-    is_terrestial : bool, optional
+    is_terrestrial : bool, optional
         If True the returned tracktable trajectory will be of terrestial
         type instead of the default cartesian type, by default False.
 
@@ -55,20 +55,20 @@ def yupi2tracktable(yupi_trajectory: yupi.Trajectory,
     track_points = []
     if yupi_trajectory.dim == 2:
         for tp, date in zip(yupi_trajectory, dates):
-            if is_terrestial:
+            if is_terrestrial:
                 point = tdt_ter.TrajectoryPoint(tp.r[0], tp.r[1])
             else:
                 point = tdt_2d.TrajectoryPoint(tp.r[0], tp.r[1])
             point.object_id = yupi_trajectory.id
             point.timestamp = date
             track_points.append(point)
-        if is_terrestial:
+        if is_terrestrial:
             return tdt_ter.Trajectory.from_position_list(track_points)
         else:
             return tdt_2d.Trajectory.from_position_list(track_points)
     elif yupi_trajectory.dim == 3:
         for tp, date in zip(yupi_trajectory, dates):
-            if is_terrestial:
+            if is_terrestrial:
                 point = tdt_ter.TrajectoryPoint(tp.r[0], tp.r[1])
                 point.properties['altitude'] = tp.r[2]
             else:
@@ -76,7 +76,7 @@ def yupi2tracktable(yupi_trajectory: yupi.Trajectory,
             point.object_id = yupi_trajectory.id
             point.timestamp = date
             track_points.append(point)
-        if is_terrestial:
+        if is_terrestrial:
             return tdt_ter.Trajectory.from_position_list(track_points)
         else:
             return tdt_3d.Trajectory.from_position_list(track_points)
