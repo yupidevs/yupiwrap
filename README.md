@@ -6,8 +6,8 @@
 
 **Convert trajectories between yupi and other trajectory analysis libraries.**
 
-[![QA](https://github.com/gvieralopez/yupiwrap/actions/workflows/qa.yml/badge.svg)](https://github.com/gvieralopez/yupiwrap/actions/workflows/qa.yml)
-[![Release](https://img.shields.io/github/v/release/gvieralopez/yupiwrap?label=release)](https://github.com/gvieralopez/yupiwrap/releases/latest)
+[![QA](https://github.com/yupidevs/yupiwrap/actions/workflows/qa.yml/badge.svg)](https://github.com/yupidevs/yupiwrap/actions/workflows/qa.yml)
+[![Release](https://img.shields.io/github/v/release/yupidevs/yupiwrap?label=release)](https://github.com/yupidevs/yupiwrap/releases/latest)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![License: GPL-3.0-or-later](https://img.shields.io/badge/license-GPL--3.0--or--later-green)](LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/yupiwrap)](https://pypi.org/project/yupiwrap/)
@@ -17,7 +17,7 @@
 [![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
 
 <!-- Badges to move into the rows above once they apply:
-[![Docker image](https://img.shields.io/badge/docker-ghcr.io-2496ED?logo=docker&logoColor=white)](https://github.com/gvieralopez/yupiwrap/pkgs/container/yupiwrap)
+[![Docker image](https://img.shields.io/badge/docker-ghcr.io-2496ED?logo=docker&logoColor=white)](https://github.com/yupidevs/yupiwrap/pkgs/container/yupiwrap)
 [![Docs](https://readthedocs.org/projects/yupiwrap/badge/?version=latest)](https://yupiwrap.readthedocs.io)
 -->
 
