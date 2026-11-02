@@ -1,12 +1,13 @@
 import logging
+
 import yupi
 
 try:
     import traja
 except (ModuleNotFoundError, ImportError):
-    logging.error(f'''Fail at importing 'traja' library
+    logging.error("""Fail at importing 'traja' library
 
-You can refer to https://github.com/traja-team/traja#installation-and-setup''')
+You can refer to https://github.com/traja-team/traja#installation-and-setup""")
 
 
 def yupi2traja(yupi_trajectory: yupi.Trajectory) -> traja.TrajaDataFrame:
@@ -30,11 +31,12 @@ def yupi2traja(yupi_trajectory: yupi.Trajectory) -> traja.TrajaDataFrame:
 
     if yupi_trajectory.dim != 2:
         raise ValueError("Trajectory object has incompatible dimensions with traja")
-    
+
     x = yupi_trajectory.r.x
     y = yupi_trajectory.r.y
     t = yupi_trajectory.t
     return traja.TrajaDataFrame({"x": x, "y": y, "time": t})
+
 
 def traja2yupi(traja_trajectory: traja.TrajaDataFrame) -> yupi.Trajectory:
     """Converts a traja dataframe to a yupi trajectory.

@@ -1,29 +1,31 @@
-from datetime import datetime
 import logging
+from collections.abc import Callable, Iterable
+from datetime import datetime
+from typing import Union
+
 import numpy as np
-from typing import Callable, Iterable, Union
-from yupiwrap.utils import seconds2datetime
 import yupi
 
+from yupiwrap.utils import seconds2datetime
+
 try:
-    import tracktable.domain.terrestrial as tdt_ter
     import tracktable.domain.cartesian2d as tdt_2d
     import tracktable.domain.cartesian3d as tdt_3d
+    import tracktable.domain.terrestrial as tdt_ter
 except (ModuleNotFoundError, ImportError):
-    logging.error(f'''Fail at importing 'tracktable' library
+    logging.error("""Fail at importing 'tracktable' library
 
-You can refer to https://github.com/sandialabs/tracktable#getting-tracktable''')
+You can refer to https://github.com/sandialabs/tracktable#getting-tracktable""")
 
-TracktableTrajectory = Union[
-    tdt_ter.Trajectory,
-    tdt_2d.Trajectory,
-    tdt_3d.Trajectory
-]
+TracktableTrajectory = Union[tdt_ter.Trajectory, tdt_2d.Trajectory, tdt_3d.Trajectory]
 
-def yupi2tracktable(yupi_trajectory: yupi.Trajectory,
-                    time_conv: Callable[[np.ndarray], Iterable] = seconds2datetime,
-                    init_datetime: datetime = None,
-                    is_terrestrial = False) -> TracktableTrajectory:
+
+def yupi2tracktable(
+    yupi_trajectory: yupi.Trajectory,
+    time_conv: Callable[[np.ndarray], Iterable] = seconds2datetime,
+    init_datetime: datetime = None,
+    is_terrestrial=False,
+) -> TracktableTrajectory:
     """Converts a yupi trajectory to a tracktable trajectory.
 
     Parameters
@@ -70,7 +72,7 @@ def yupi2tracktable(yupi_trajectory: yupi.Trajectory,
         for tp, date in zip(yupi_trajectory, dates):
             if is_terrestrial:
                 point = tdt_ter.TrajectoryPoint(tp.r[0], tp.r[1])
-                point.properties['altitude'] = tp.r[2]
+                point.properties["altitude"] = tp.r[2]
             else:
                 point = tdt_3d.TrajectoryPoint(tp.r[0], tp.r[1], tp.r[2])
             point.object_id = yupi_trajectory.id
@@ -82,6 +84,7 @@ def yupi2tracktable(yupi_trajectory: yupi.Trajectory,
             return tdt_3d.Trajectory.from_position_list(track_points)
     else:
         raise ValueError("Trajectory object has incompatible dimensions with tracktable")
+
 
 def tracktable2yupi(tracktable_trajectory: TracktableTrajectory) -> yupi.Trajectory:
     """Converts a tracktable trajectory to a yupi trajectory
@@ -107,7 +110,7 @@ def tracktable2yupi(tracktable_trajectory: TracktableTrajectory) -> yupi.Traject
     is_3d = isinstance(tracktable_trajectory, tdt_3d.Trajectory)
 
     if is_ter + is_2d + is_3d != 1:
-        raise ValueError('Invalid tracktable trajectory')
+        raise ValueError("Invalid tracktable trajectory")
 
     points, t = [], []
     init_date = None
