@@ -32,6 +32,14 @@ def test_cartesian_round_trip(points: list[list[float]]) -> None:
     assert np.array_equal(result.t, original.t)
 
 
+@pytest.mark.parametrize(
+    "times", [[0.0, 1.5, 3.25], [0.0, 90000.5, 180000.0]], ids=["fractions", "days"]
+)
+def test_times_survive_a_round_trip(times: list[float]) -> None:
+    original = Trajectory(points=PLANAR, t=times, traj_id="a")
+    assert tracktable2yupi(yupi2tracktable(original)).t.tolist() == pytest.approx(times)
+
+
 def test_terrestrial_conversion_uses_the_terrestrial_domain() -> None:
     track = yupi2tracktable(Trajectory(points=PLANAR, traj_id="a"), is_terrestrial=True)
     assert isinstance(track, tdt_ter.Trajectory)

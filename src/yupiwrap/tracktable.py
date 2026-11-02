@@ -105,7 +105,7 @@ def tracktable2yupi(tracktable_trajectory: TracktableTrajectory) -> yupi.Traject
             points.append([point[0], point[1]])
         else:
             points.append([point[0], point[1], point[2]])
-        t.append((timestamp - timestamps[0]).seconds)
+        t.append((timestamp - timestamps[0]).total_seconds())
     return yupi.Trajectory(points=points, t=t)
 
 
