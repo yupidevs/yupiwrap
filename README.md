@@ -1,4 +1,31 @@
+<div align="center">
+
+<img src="assets/logo.svg" alt="" width="96">
+
 # yupiwrap
+
+**Convert trajectories between yupi and other trajectory analysis libraries.**
+
+[![QA](https://github.com/gvieralopez/yupiwrap/actions/workflows/qa.yml/badge.svg)](https://github.com/gvieralopez/yupiwrap/actions/workflows/qa.yml)
+[![Release](https://img.shields.io/github/v/release/gvieralopez/yupiwrap?label=release)](https://github.com/gvieralopez/yupiwrap/releases/latest)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![License: GPL-3.0-or-later](https://img.shields.io/badge/license-GPL--3.0--or--later-green)](LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/yupiwrap)](https://pypi.org/project/yupiwrap/)
+<br>
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
+
+<!-- Badges to move into the rows above once they apply:
+[![Docker image](https://img.shields.io/badge/docker-ghcr.io-2496ED?logo=docker&logoColor=white)](https://github.com/gvieralopez/yupiwrap/pkgs/container/yupiwrap)
+[![Docs](https://readthedocs.org/projects/yupiwrap/badge/?version=latest)](https://yupiwrap.readthedocs.io)
+-->
+
+[Installation](#installation) · [Compatible libraries](#compatible-libraries) · [Development](#development)
+
+</div>
+
+---
 
 This repository contains functions to simplify the conversion of Trajectory data
 among [yupi](https://yupi.readthedocs.io/en/latest/) and other useful software libraries designed for analyzing trajectories.
@@ -102,3 +129,19 @@ If you have a tracktable trajectory you can always convert it to a *yupi.Traject
 # Converting the trajectory from tracktable to yupi
 yupi_track_1 = tracktable2yupi(tracktable_track_1)
 ```
+
+## Development
+
+Setup, QA, docs and releases: [DEVELOPMENT.md](DEVELOPMENT.md).
+
+## Contributing
+
+Issues and pull requests are welcome; `make qa` must pass.
+
+## License
+
+GPL-3.0-or-later: see [LICENSE](LICENSE).
+
+---
+
+<sub>🚀 Project starter provided by [Cookie Pyrate v1.1.2](https://github.com/gvieralopez/cookie-pyrate/tree/v1.1.2)</sub>
