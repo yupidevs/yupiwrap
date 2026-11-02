@@ -1,30 +1,32 @@
-import logging
 from collections.abc import Callable, Iterable
 from datetime import datetime
-from typing import Union
+from typing import Any
 
 import numpy as np
 import yupi
-
-from yupiwrap.utils import seconds2datetime
 
 try:
     import tracktable.domain.cartesian2d as tdt_2d
     import tracktable.domain.cartesian3d as tdt_3d
     import tracktable.domain.terrestrial as tdt_ter
-except (ModuleNotFoundError, ImportError):
-    logging.error("""Fail at importing 'tracktable' library
+except ImportError as error:
+    raise ImportError(
+        "The tracktable conversions need the tracktable extra: pip install 'yupiwrap[tracktable]'"
+    ) from error
 
-You can refer to https://github.com/sandialabs/tracktable#getting-tracktable""")
+from yupiwrap.utils import seconds2datetime
 
-TracktableTrajectory = Union[tdt_ter.Trajectory, tdt_2d.Trajectory, tdt_3d.Trajectory]
+PLANAR = 2
+SPATIAL = 3
+
+TracktableTrajectory = Any
 
 
 def yupi2tracktable(
     yupi_trajectory: yupi.Trajectory,
-    time_conv: Callable[[np.ndarray], Iterable] = seconds2datetime,
-    init_datetime: datetime = None,
-    is_terrestrial=False,
+    time_conv: Callable[[np.ndarray, datetime | None], Iterable[datetime]] = seconds2datetime,
+    init_datetime: datetime | None = None,
+    is_terrestrial: bool = False,
 ) -> TracktableTrajectory:
     """Converts a yupi trajectory to a tracktable trajectory.
 
@@ -53,37 +55,18 @@ def yupi2tracktable(
         If the yupi trajectory dimension is not 2 or 3.
     """
 
-    dates = time_conv(yupi_trajectory.t, init_datetime)
-    track_points = []
-    if yupi_trajectory.dim == 2:
-        for tp, date in zip(yupi_trajectory, dates):
-            if is_terrestrial:
-                point = tdt_ter.TrajectoryPoint(tp.r[0], tp.r[1])
-            else:
-                point = tdt_2d.TrajectoryPoint(tp.r[0], tp.r[1])
-            point.object_id = yupi_trajectory.id
-            point.timestamp = date
-            track_points.append(point)
-        if is_terrestrial:
-            return tdt_ter.Trajectory.from_position_list(track_points)
-        else:
-            return tdt_2d.Trajectory.from_position_list(track_points)
-    elif yupi_trajectory.dim == 3:
-        for tp, date in zip(yupi_trajectory, dates):
-            if is_terrestrial:
-                point = tdt_ter.TrajectoryPoint(tp.r[0], tp.r[1])
-                point.properties["altitude"] = tp.r[2]
-            else:
-                point = tdt_3d.TrajectoryPoint(tp.r[0], tp.r[1], tp.r[2])
-            point.object_id = yupi_trajectory.id
-            point.timestamp = date
-            track_points.append(point)
-        if is_terrestrial:
-            return tdt_ter.Trajectory.from_position_list(track_points)
-        else:
-            return tdt_3d.Trajectory.from_position_list(track_points)
-    else:
+    if yupi_trajectory.dim not in (PLANAR, SPATIAL):
         raise ValueError("Trajectory object has incompatible dimensions with tracktable")
+
+    domain = _domain(yupi_trajectory.dim, is_terrestrial)
+    track_points = []
+    dates = time_conv(yupi_trajectory.t, init_datetime)
+    for tp, date in zip(yupi_trajectory, dates, strict=True):
+        point = _make_point(domain, tp.r, is_terrestrial)
+        point.object_id = yupi_trajectory.traj_id
+        point.timestamp = date
+        track_points.append(point)
+    return domain.Trajectory.from_position_list(track_points)
 
 
 def tracktable2yupi(tracktable_trajectory: TracktableTrajectory) -> yupi.Trajectory:
@@ -112,17 +95,30 @@ def tracktable2yupi(tracktable_trajectory: TracktableTrajectory) -> yupi.Traject
     if is_ter + is_2d + is_3d != 1:
         raise ValueError("Invalid tracktable trajectory")
 
-    points, t = [], []
-    init_date = None
-    for i, point in enumerate(tracktable_trajectory):
-        if i == 0:
-            init_date: datetime = point.timestamp
-        current_date: datetime = point.timestamp
+    points: list[list[float]] = []
+    t: list[float] = []
+    timestamps = [point.timestamp for point in tracktable_trajectory]
+    for point, timestamp in zip(tracktable_trajectory, timestamps, strict=True):
         if is_ter:
             points.append([point[1], point[0]])
         elif is_2d:
             points.append([point[0], point[1]])
         else:
             points.append([point[0], point[1], point[2]])
-        t.append((current_date - init_date).seconds)
+        t.append((timestamp - timestamps[0]).seconds)
     return yupi.Trajectory(points=points, t=t)
+
+
+def _domain(dimensions: int, is_terrestrial: bool) -> Any:
+    if is_terrestrial:
+        return tdt_ter
+    return tdt_2d if dimensions == PLANAR else tdt_3d
+
+
+def _make_point(domain: Any, position: np.ndarray, is_terrestrial: bool) -> Any:
+    if not is_terrestrial:
+        return domain.TrajectoryPoint(*position)
+    point = domain.TrajectoryPoint(position[0], position[1])
+    if len(position) == SPATIAL:
+        point.properties["altitude"] = position[2]
+    return point

@@ -41,7 +41,12 @@ Current recommended installation method is via the pypi package:
 pip install yupiwrap
 ```
 
-It will install required dependencies such as [yupi package](https://pypi.org/project/yupi/) from pypi.
+It will install required dependencies such as [yupi package](https://pypi.org/project/yupi/) from pypi. Each conversion library is an optional extra, so install the ones you need:
+
+```cmd
+pip install 'yupiwrap[traja]'
+pip install 'yupiwrap[tracktable]'
+```
 
 ## Compatible libraries
 
@@ -65,7 +70,7 @@ track = Trajectory(x=x, y=y, traj_id="Spiral")
 We can convert it to a traja DataFrame simply by:
 
 ```python
-from yupiwrap import yupi2traja
+from yupiwrap.traja import yupi2traja
 
 traja_track = yupi2traja(track)
 ```
@@ -77,7 +82,7 @@ traja_track = yupi2traja(track)
 If you have a *traja DataFrame* you can always convert it to a *yupi.Trajectory* by using:
 
 ```python
-from yupiwrap import traja2yupi
+from yupiwrap.traja import traja2yupi
 
 yupi_track = traja2yupi(traja_track)
 ```

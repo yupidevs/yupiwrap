@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import numpy as np
 
 
-def seconds2datetime(time: np.ndarray, init_datetime=None) -> Iterable[datetime]:
+def seconds2datetime(time: np.ndarray, init_datetime: datetime | None = None) -> Iterable[datetime]:
     """Converts a time array of seconds to a datetime iterable
 
     Parameters
