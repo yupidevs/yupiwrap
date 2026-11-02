@@ -100,7 +100,8 @@ def tracktable2yupi(tracktable_trajectory: TracktableTrajectory) -> yupi.Traject
     timestamps = [point.timestamp for point in tracktable_trajectory]
     for point, timestamp in zip(tracktable_trajectory, timestamps, strict=True):
         if is_ter:
-            points.append([point[1], point[0]])
+            altitude = [point.properties["altitude"]] if "altitude" in point.properties else []
+            points.append([point[0], point[1], *altitude])
         elif is_2d:
             points.append([point[0], point[1]])
         else:

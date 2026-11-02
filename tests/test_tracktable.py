@@ -50,6 +50,20 @@ def test_terrestrial_points_can_have_an_altitude() -> None:
     assert [point.properties["altitude"] for point in track] == [0.0, 3.0, 5.0]
 
 
+@pytest.mark.parametrize(
+    "points",
+    [
+        [[-82.359415, 23.135012], [-82.382116, 23.136252]],
+        [[-82.359415, 23.135012, 12.0], [-82.382116, 23.136252, 30.5]],
+    ],
+    ids=["surface", "with altitude"],
+)
+def test_terrestrial_round_trip(points: list[list[float]]) -> None:
+    original = Trajectory(points=points, t=[0.0, 1.0], traj_id="a")
+    result = tracktable2yupi(yupi2tracktable(original, is_terrestrial=True))
+    assert np.allclose(result.r, points)
+
+
 def test_the_trajectory_id_becomes_the_object_id() -> None:
     track = yupi2tracktable(Trajectory(points=PLANAR, traj_id="spiral"))
     assert {point.object_id for point in track} == {"spiral"}
