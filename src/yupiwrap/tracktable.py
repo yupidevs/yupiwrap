@@ -1,6 +1,6 @@
 from collections.abc import Callable, Iterable
 from datetime import datetime
-from typing import Any
+from typing import Any, TypeAlias
 
 import numpy as np
 import yupi
@@ -19,7 +19,7 @@ from yupiwrap.utils import seconds2datetime
 PLANAR = 2
 SPATIAL = 3
 
-TracktableTrajectory = Any
+TracktableTrajectory: TypeAlias = tdt_ter.Trajectory | tdt_2d.Trajectory | tdt_3d.Trajectory
 
 
 def yupi2tracktable(
