@@ -1,4 +1,31 @@
+<div align="center">
+
+<img src="assets/logo.svg" alt="" width="96">
+
 # yupiwrap
+
+**Convert trajectories between yupi and other trajectory analysis libraries.**
+
+[![QA](https://github.com/yupidevs/yupiwrap/actions/workflows/qa.yml/badge.svg)](https://github.com/yupidevs/yupiwrap/actions/workflows/qa.yml)
+[![Release](https://img.shields.io/github/v/release/yupidevs/yupiwrap?label=release)](https://github.com/yupidevs/yupiwrap/releases/latest)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![License: GPL-3.0-or-later](https://img.shields.io/badge/license-GPL--3.0--or--later-green)](LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/yupiwrap)](https://pypi.org/project/yupiwrap/)
+<br>
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
+
+<!-- Badges to move into the rows above once they apply:
+[![Docker image](https://img.shields.io/badge/docker-ghcr.io-2496ED?logo=docker&logoColor=white)](https://github.com/yupidevs/yupiwrap/pkgs/container/yupiwrap)
+[![Docs](https://readthedocs.org/projects/yupiwrap/badge/?version=latest)](https://yupiwrap.readthedocs.io)
+-->
+
+[Installation](#installation) · [Compatible libraries](#compatible-libraries) · [Development](#development)
+
+</div>
+
+---
 
 This repository contains functions to simplify the conversion of Trajectory data
 among [yupi](https://yupi.readthedocs.io/en/latest/) and other useful software libraries designed for analyzing trajectories.
@@ -14,7 +41,12 @@ Current recommended installation method is via the pypi package:
 pip install yupiwrap
 ```
 
-It will install required dependencies such as [yupi package](https://pypi.org/project/yupi/) from pypi.
+It will install required dependencies such as [yupi package](https://pypi.org/project/yupi/) from pypi. Each conversion library is an optional extra, so install the ones you need:
+
+```cmd
+pip install 'yupiwrap[traja]'
+pip install 'yupiwrap[tracktable]'
+```
 
 ## Compatible libraries
 
@@ -38,7 +70,7 @@ track = Trajectory(x=x, y=y, traj_id="Spiral")
 We can convert it to a traja DataFrame simply by:
 
 ```python
-from yupiwrap import yupi2traja
+from yupiwrap.traja import yupi2traja
 
 traja_track = yupi2traja(track)
 ```
@@ -50,7 +82,7 @@ traja_track = yupi2traja(track)
 If you have a *traja DataFrame* you can always convert it to a *yupi.Trajectory* by using:
 
 ```python
-from yupiwrap import traja2yupi
+from yupiwrap.traja import traja2yupi
 
 yupi_track = traja2yupi(traja_track)
 ```
@@ -68,17 +100,28 @@ from yupiwrap.tracktable import yupi2tracktable, tracktable2yupi
 from yupi import Trajectory
 
 # Creating a yupi trajectory representing terrain coordinates
-points = [[-82.359415, 23.135012],[-82.382116, 23.136252]]
+points = [[-82.359415, 23.135012], [-82.382116, 23.136252]]
 track_1 = Trajectory(points=points, traj_id="ter_track")
 
 # Creating a 2D yupi trajectory
-points = [[0, 0], [1.0, 0], [0.63, 0.98], [-0.37, 1.24], [-1.24, 0.69],
-          [-1.5, -0.3], [-1.08, -1.23], [-0.19, -1.72], [0.82, -1.63],
-          [1.63, -1.01], [1.99, -0.06], [1.85, 0.94]]
+points = [
+    [0, 0],
+    [1.0, 0],
+    [0.63, 0.98],
+    [-0.37, 1.24],
+    [-1.24, 0.69],
+    [-1.5, -0.3],
+    [-1.08, -1.23],
+    [-0.19, -1.72],
+    [0.82, -1.63],
+    [1.63, -1.01],
+    [1.99, -0.06],
+    [1.85, 0.94],
+]
 track_2 = Trajectory(points=points, traj_id="2d_track")
 
 # Creating a 3D yupi trajectory
-points = [[0,0,0], [1,1,3], [3,2,5]]
+points = [[0, 0, 0], [1, 1, 3], [3, 2, 5]]
 track_3 = Trajectory(points=points, traj_id="3d_track")
 ```
 
@@ -102,3 +145,19 @@ If you have a tracktable trajectory you can always convert it to a *yupi.Traject
 # Converting the trajectory from tracktable to yupi
 yupi_track_1 = tracktable2yupi(tracktable_track_1)
 ```
+
+## Development
+
+Setup, QA, docs and releases: [DEVELOPMENT.md](DEVELOPMENT.md).
+
+## Contributing
+
+Issues and pull requests are welcome; `make qa` must pass.
+
+## License
+
+GPL-3.0-or-later: see [LICENSE](LICENSE).
+
+---
+
+<sub>🚀 Project starter provided by [Cookie Pyrate v1.1.2](https://github.com/gvieralopez/cookie-pyrate/tree/v1.1.2)</sub>
