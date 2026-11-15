@@ -1,9 +1,10 @@
-from typing import Iterable
-import numpy as np
-from typing import Iterable
+from collections.abc import Iterable
 from datetime import datetime, timedelta
 
-def seconds2datetime(time: np.ndarray, init_datetime=None) -> Iterable[datetime]:
+import numpy as np
+
+
+def seconds2datetime(time: np.ndarray, init_datetime: datetime | None = None) -> Iterable[datetime]:
     """Converts a time array of seconds to a datetime iterable
 
     Parameters
@@ -20,7 +21,7 @@ def seconds2datetime(time: np.ndarray, init_datetime=None) -> Iterable[datetime]
     Iterable[datetime]
         Resulting datetime iterable.
     """
- 
+
     if init_datetime is None:
         init_datetime = datetime.now()
     return [init_datetime + timedelta(seconds=s) for s in time]
