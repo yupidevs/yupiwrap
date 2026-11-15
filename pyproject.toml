@@ -1,6 +1,6 @@
 [project]
 name = "yupiwrap"
-version = "0.2.0-beta0"
+version = "0.2.0"
 description = "Convert trajectories between yupi and other trajectory analysis libraries."
 readme = "README.md"
 requires-python = ">=3.11"
